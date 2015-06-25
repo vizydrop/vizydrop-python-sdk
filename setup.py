@@ -1,6 +1,6 @@
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Utility function to read the README file.  
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -12,14 +12,14 @@ def read(fname):
 
 setup(
     name="vizydrop-sdk",
-    version='0.1.0',
+    version='0.1.1',
     author="Jonathan Enzinna",
     author_email="jonathan@vizydrop.com",
     description="Vizydrop 3rd Party Application Python SDK - Get visual",
     license="MIT",
     keywords="sdk visualization vizydrop",
     url="https://github.com/vizydrop/vizydrop-python-sdk",
-    packages=['vizydrop'],
+    packages=find_packages(),
     long_description=read('README.rst'),
     install_requires=['tornado', 'oauthlib'],
     classifiers=[
