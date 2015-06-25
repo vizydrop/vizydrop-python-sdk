@@ -1,0 +1,28 @@
+Metadata-Version: 1.0
+Name: vizydrop-sdk
+Version: 0.1.0
+Summary: Vizydrop 3rd Party Application SDK for Python
+Home-page: https://github.com/vizydrop/vizydrop-python-sdk
+Author: Jonathan Enzinna
+Author-email: jonathan@vizydrop.com
+License: MIT
+Description: .. include globals.rst
+
+		Vizydrop SDK for Python
+		=======================
+
+		This project provides a Python package that makes it easy to develop a third-party application integration with
+		Vizydrop.  The SDK provides everything necessary for developers to integrate their own data sources with our data
+		visualization platform with minimal effort and only a few lines of code.
+
+		The SDK supports only Python 3.3 and greater.
+
+Keywords: sdk visualization data integration
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
