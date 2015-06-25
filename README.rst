@@ -47,5 +47,5 @@ our `developer documentation on GitBook <https://www.gitbook.com/book/vizydrop/d
 Contributing and Providing Feedback
 ===================================
 
-If you encounter any bugs with the SDK, please `file an issue on GitHub <>`.  If you are a developer, pull requests
+If you encounter any bugs with the SDK, please `file an issue on GitHub <https://github.com/vizydrop/vizydrop-python-sdk/issues/new>`.  If you are a developer, pull requests
 are always welcome.
