@@ -292,6 +292,14 @@ class DateField(Field):
     def set(self, value):
         super(DateField, self).set(value)
 
+    def convert_value(self, value):
+        try:
+            super(DateField, self).convert_value(value)
+        except TypeError:
+            # we're assuming a date will be parsed by our
+            # DSL later in the process...
+            return value
+
 
 class DateTimeField(Field):
     _type = datetime
@@ -329,75 +337,6 @@ class LinkField(Field):
 class BooleanField(Field):
     _type = bool
     _api_type = 'bool'
-
-
-class RangeField(Field):
-    _type = str
-    _api_type = 'range'
-
-    def __init__(self, *args, **kwargs):
-        self._value = []
-        super(RangeField, self).__init__(*args, **kwargs)
-
-    @property
-    def value(self):
-        return ','.join(self._value)
-
-    def set(self, value):
-        if ',' not in value and not isinstance(value, list):
-            raise ValueError('expecting comma-delimited range or list, got {}'.format(value.__class__.__name__))
-        if isinstance(value, list):
-            if value.__len__() != 2:
-                raise ValueError('too many values in range, expecting 2 got {}'.format(value.__len__()))
-            self._value = value
-        else:
-            values = value.split(',')
-            if not self._value:
-                self._value = []
-            for value in values:
-                self._value.append(self.convert_value(value))
-
-    def is_valid(self):
-        if isinstance(self._value, list):
-            for val in self._value:
-                try:
-                    self.convert_value(val)
-                except ValueError:
-                    return False
-        else:
-            try:
-                self.convert_value(self._value)
-            except ValueError:
-                return False
-        return True
-
-    def low(self):
-        return min(self._value)
-
-    def high(self):
-        return max(self._value)
-
-
-class NumberRangeField(RangeField):
-    _type = int
-
-
-class DecimalRangeField(RangeField):
-    _type = Decimal
-
-
-class DateRangeField(RangeField):
-    _type = date
-
-    def convert_value(self, value):
-        return datetime.strptime(value, '%Y-%m-%d').date()
-
-
-class DateTimeRangeField(RangeField):
-    _type = datetime
-
-    def convert_value(self, value):
-        return datetime.strptime(value, '%Y-%m-%dT%H:%M:%S%z')
 
 
 class MultiListField(Field):
