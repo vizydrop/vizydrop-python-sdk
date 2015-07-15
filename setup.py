@@ -12,7 +12,7 @@ def read(fname):
 
 setup(
     name="vizydrop-sdk",
-    version='0.1.2',
+    version='0.1.3',
     author="Jonathan Enzinna",
     author_email="jonathan@vizydrop.com",
     description="Vizydrop 3rd Party Application Python SDK - Get visual",

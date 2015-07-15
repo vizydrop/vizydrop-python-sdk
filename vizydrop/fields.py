@@ -118,6 +118,9 @@ class Field(object):
                 ret.update({"options": self._options})
             if self._data_list_function is None:
                 ret.update({"datalist": False})
+            elif isinstance(self, DateField):
+                # our date fields are datalists with the dsl suggestions engine
+                ret.update({"datalist": True})
             else:
                 ret.update({"datalist": True})
                 argspec = inspect.getargspec(self._data_list_function)
