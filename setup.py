@@ -19,7 +19,7 @@ setup(
     license="MIT",
     keywords="sdk visualization vizydrop",
     url="https://github.com/vizydrop/vizydrop-python-sdk",
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests', 'examplex']),
     long_description=read('README.rst'),
     install_requires=['tornado', 'oauthlib'],
     classifiers=[

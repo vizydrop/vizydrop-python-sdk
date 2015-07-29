@@ -38,7 +38,8 @@ Alternately, you can get the latest development source code for the SDK by using
 Usage
 =====
 
-Application samples can be found in our `app-samples repository on GitHub <https://github.com/vizydrop/apps-samples>`.
+Application samples can be found in the `examples <https://github.com/vizydrop/vizydrop-python-sdk/tree/master/examples>`
+folder within the repository.
 
 For detailed documentation on integrating with Vizydrop, regardless of if you're using the official SDK, please visit
 our `developer documentation on GitBook <https://www.gitbook.com/book/vizydrop/developers/details>`
