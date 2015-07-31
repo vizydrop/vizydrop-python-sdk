@@ -2,7 +2,7 @@ import json
 import sys
 from traceback import format_tb
 from datetime import datetime, date
-
+from http import client
 from bson import ObjectId
 
 from tornado import log
@@ -63,9 +63,12 @@ class VizydropAppRequestHandler(RequestHandler):
         if hasattr(e, 'HTTP_STATUS'):
             self.set_status(e.HTTP_STATUS)
         else:
-            self.set_status(500)
+            self.set_status(client.INTERNAL_SERVER_ERROR)
         typ, exc, tb = sys.exc_info()
-        log.app_log.error("Error: {}\n{}".format(str(exc), "".join(format_tb(tb))))
+        msg = str(exc)
+        if isinstance(exc, HTTPError):
+            msg += "\n{}".format(exc.response.content)
+        log.app_log.error("Error: {}\n{}".format(msg, "".join(format_tb(tb))))
         self.finish(json.dumps({"exception": typ.__name__, "message": str(exc), 'traceback': format_tb(tb, None)}))
 
     def finish(self, chunk=None, encode=True):
