@@ -16,5 +16,14 @@ Examples
 flatfile
 --------
 
-The _flatfile_ example reads data from simple flat-files from the `data` directory and serves their information to
+The flatfile example reads data from simple flat-files from the `data` directory and serves their information to
 Vizydrop.  This example includes no authentication and does not provide a source schema.
+
+
+external_api
+------------
+
+The external_api example reads data from an external RESTful API and serves its information to Vizydrop.  This example
+does not include any authentication but does provide a source schema formatted according to its API.  This example draws
+upon the `Consumer Complaint Database<http://catalog.data.gov/dataset/consumer-complaint-database>` from the US Consumer
+Financial Protection Bureau.
