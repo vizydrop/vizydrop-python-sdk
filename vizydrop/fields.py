@@ -99,7 +99,7 @@ class Field(object):
                 return 'list'
         return self._api_type
 
-    def get_api_description(self, name=True, datalist=False, optional=False):
+    def get_api_description(self, name=True, datalist=True, optional=True):
         """
         Get a formatted dictionary with descriptors about this field for the API
         :param name: Should the title be included?
