@@ -113,19 +113,20 @@ class Field(object):
         }
         if name:
             ret.update({"name": self.name})
-        if isinstance(self, DateField):
-            # our date fields are datalists with the dsl suggestions engine
-            ret.update({"datalist": True})
         if datalist:
-            if self._options is not None:
-                ret.update({"options": self._options})
-            if self._data_list_function is None:
-                ret.update({"datalist": False})
-            else:
+            if isinstance(self, DateField):
+                # our date fields are datalists with the dsl suggestions engine
                 ret.update({"datalist": True})
-                argspec = inspect.getargspec(self._data_list_function)
-                required_args = argspec[0][1:]
-                ret.update({"datalist_requires": required_args})
+            else:
+                if self._options is not None:
+                    ret.update({"options": self._options})
+                if self._data_list_function is None:
+                    ret.update({"datalist": False})
+                else:
+                    ret.update({"datalist": True})
+                    argspec = inspect.getargspec(self._data_list_function)
+                    required_args = argspec[0][1:]
+                    ret.update({"datalist_requires": required_args})
         if optional:
             ret.update({"optional": self.optional})
         return ret

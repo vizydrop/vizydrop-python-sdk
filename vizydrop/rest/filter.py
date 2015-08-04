@@ -44,5 +44,9 @@ class FilterDatalistHandler(VizydropAppRequestHandler, TpaHandlerMixin):
                 return self.finish({"error": "missing required parameter '{}'".format(arg)})
             args.append(argval)
 
-        options = yield gen.coroutine(get_func)(auth, *args, request=self.request)
-        self.finish(options)
+        try:
+            options = yield gen.coroutine(get_func)(auth, *args, request=self.request)
+            self.finish(options)
+        except Exception as e:
+            self.set_status(INTERNAL_SERVER_ERROR)
+            self._handle_request_exception(e)
