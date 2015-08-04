@@ -41,4 +41,4 @@ class BaseHandler(VizydropAppRequestHandler, TpaHandlerMixin):
             self.finish(data, encode=False)
         except Exception as e:
             self.set_status(INTERNAL_SERVER_ERROR)
-            self.finish({"error": str(e)})
+            self._handle_request_exception(e)
