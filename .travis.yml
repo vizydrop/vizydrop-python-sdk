@@ -12,3 +12,6 @@ python:
 install: "pip install oauthlib tornado"
 
 script: "python setup.py test"
+
+notifications:
+  slack: targetprocess:3vskJskCGoKESMxPoIPRaOkd
