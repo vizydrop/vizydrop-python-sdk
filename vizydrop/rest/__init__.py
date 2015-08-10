@@ -67,7 +67,10 @@ class VizydropAppRequestHandler(RequestHandler):
         typ, exc, tb = sys.exc_info()
         msg = str(exc)
         if isinstance(exc, HTTPError):
-            msg += "\n{}".format(exc.response.content)
+            try:
+                msg += "\n{}".format(exc.response.body.decode('utf-8'))
+            except AttributeError:
+                pass
         log.app_log.error("Error: {}\n{}".format(msg, "".join(format_tb(tb))))
         self.finish(json.dumps({"exception": typ.__name__, "message": str(exc), 'traceback': format_tb(tb, None)}))
 
