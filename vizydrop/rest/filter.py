@@ -1,4 +1,4 @@
-from http.client import BAD_REQUEST, NOT_FOUND
+from http.client import BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR
 import inspect
 
 from tornado import gen
