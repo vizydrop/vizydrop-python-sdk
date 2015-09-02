@@ -2,8 +2,8 @@ from http.client import INTERNAL_SERVER_ERROR
 import json
 
 from vizydrop.rest import VizydropAppRequestHandler
+from vizydrop.sdk.source import StreamingDataSource
 from tornado.gen import coroutine
-
 from . import TpaHandlerMixin
 
 
@@ -36,9 +36,23 @@ class BaseHandler(VizydropAppRequestHandler, TpaHandlerMixin):
         source_type = self.tpa.get_source(source)
         filter = source_type.Meta.filter(filter_fields)
 
-        try:
-            data = yield source_type.get_data(account, filter, limit=limit, skip=skip)
-            self.finish(data, encode=False)
-        except Exception as e:
-            self.set_status(INTERNAL_SERVER_ERROR)
-            self._handle_request_exception(e)
+        if isinstance(source_type, StreamingDataSource):
+            source_type.callback = self.on_stream_data
+            try:
+                yield source_type.get_data(account, filter, limit=limit, skip=skip)
+            except Exception as e:
+                self.set_status(INTERNAL_SERVER_ERROR)
+                self._handle_request_exception(e)
+        else:
+            try:
+                data = yield source_type.get_data(account, filter, limit=limit, skip=skip)
+                self.finish(data, encode=False)
+            except Exception as e:
+                self.set_status(INTERNAL_SERVER_ERROR)
+                self._handle_request_exception(e)
+
+    def on_stream_data(self, data):
+        if data is None:
+            return self.finish()
+        self.write(data)
+        self.flush()

@@ -105,6 +105,20 @@ class DataSource(object):
             return cls._get_value_from_location(item[this_loc], '-'.join(locations))
 
 
+class StreamingDataSource(DataSource):
+    callback = None
+
+    @classmethod
+    def write(cls, data):
+        if callable(cls.callback):
+            cls.callback(data)
+
+    @classmethod
+    def finish(cls):
+        if callable(cls.callback):
+            cls.callback(None)
+
+
 class SourceFilter(FieldedObject):
     """
     Base representation of a datasource filter
