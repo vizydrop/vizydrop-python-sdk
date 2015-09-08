@@ -108,17 +108,11 @@ class DataSource(object):
 
 
 class StreamingDataSource(DataSource):
-    callback = None
+    stream_callback = None
 
     @classmethod
     def write(cls, data):
-        if callable(cls.callback):
-            cls.callback(data)
-
-    @classmethod
-    def finish(cls):
-        if callable(cls.callback):
-            cls.callback(None)
+        cls.stream_callback(data)
 
 
 class SourceFilter(FieldedObject):
