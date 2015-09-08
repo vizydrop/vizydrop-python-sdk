@@ -36,10 +36,12 @@ class BaseHandler(VizydropAppRequestHandler, TpaHandlerMixin):
         source_type = self.tpa.get_source(source)
         filter = source_type.Meta.filter(filter_fields)
 
-        if isinstance(source_type, StreamingDataSource):
-            source_type.callback = self.on_stream_data
+        if issubclass(source_type, StreamingDataSource):
+            source_type.stream_callback = self.on_stream_data
             try:
                 yield source_type.get_data(account, filter, limit=limit, skip=skip)
+                self.flush()
+                self.finish('')
             except Exception as e:
                 self.set_status(INTERNAL_SERVER_ERROR)
                 self._handle_request_exception(e)
@@ -52,7 +54,5 @@ class BaseHandler(VizydropAppRequestHandler, TpaHandlerMixin):
                 self._handle_request_exception(e)
 
     def on_stream_data(self, data):
-        if data is None:
-            return self.finish()
         self.write(data)
         self.flush()
