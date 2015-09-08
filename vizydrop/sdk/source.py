@@ -78,12 +78,12 @@ class DataSource(object):
         fields = {key: value for key, value in cls.Schema.get_all_fields()}
         this_item = {}
         for key, field in fields.items():
-            if field.response_location is None and key in item:
+            if field.response_location is None and key in data:
                 # easy peasy
-                this_item[key] = item[key]
+                this_item[key] = data[key]
             elif field.response_location is not None:
                 # we need to grab this value from somewhere else in the response
-                this_item[key] = cls._get_value_from_location(item, field.response_location)
+                this_item[key] = cls._get_value_from_location(data, field.response_location)
             else:
                 # unknown or not found field?
                 continue
