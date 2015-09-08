@@ -68,24 +68,26 @@ class DataSource(object):
         :param data: data to format
         :return: formatted data
         """
-        if type(data) is not list:
-            raise ValueError('expecting type \'list\' got \'{}\''.format(type(data)))
+        if type(data) is list:
+            # iterate through each item in our list, return the results
+            ret = []
+            for item in data:
+                ret.append(cls.format_data_to_schema(item))
+            return ret
+        # actually format if we're an object
         fields = {key: value for key, value in cls.Schema.get_all_fields()}
-        ret = []
-        for item in data:
-            this_item = {}
-            for key, field in fields.items():
-                if field.response_location is None and key in item:
-                    # easy peasy
-                    this_item[key] = item[key]
-                elif field.response_location is not None:
-                    # we need to grab this value from somewhere else in the response
-                    this_item[key] = cls._get_value_from_location(item, field.response_location)
-                else:
-                    # unknown or not found field?
-                    continue
-            ret.append(this_item)
-        return ret
+        this_item = {}
+        for key, field in fields.items():
+            if field.response_location is None and key in item:
+                # easy peasy
+                this_item[key] = item[key]
+            elif field.response_location is not None:
+                # we need to grab this value from somewhere else in the response
+                this_item[key] = cls._get_value_from_location(item, field.response_location)
+            else:
+                # unknown or not found field?
+                continue
+        return this_item
 
     @classmethod
     def _get_value_from_location(cls, item, location):
