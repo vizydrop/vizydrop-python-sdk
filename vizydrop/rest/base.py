@@ -8,6 +8,10 @@ from . import TpaHandlerMixin
 
 
 class BaseHandler(VizydropAppRequestHandler, TpaHandlerMixin):
+    def options(self):
+        self.set_status(204)
+        self.finish()
+
     def get(self):
         meta = self.tpa.Meta
         self.finish({
