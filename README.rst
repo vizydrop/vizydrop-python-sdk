@@ -1,5 +1,8 @@
 .. include globals.rst
 
+.. image:: https://travis-ci.org/vizydrop/vizydrop-python-sdk.svg?branch=master
+    :target: https://travis-ci.org/vizydrop/vizydrop-python-sdk
+
 Vizydrop SDK for Python
 =======================
 
