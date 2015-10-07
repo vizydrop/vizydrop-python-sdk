@@ -254,6 +254,23 @@ class TextField(Field):
     _api_type = 'text'
 
 
+class IDField(TextField):
+    _api_type = 'id'
+
+    def __init__(self, *args, force_int=False, **kwargs):
+        self.force_int = force_int
+        super().__init__(*args, **kwargs)
+
+    def is_valid(self):
+        if self.force_int:
+            # check and make sure we're an int
+            try:
+                int(self.value)
+            except ValueError:
+                return False
+        return True
+
+
 class URLField(TextField):
     _api_type = 'url'
 
