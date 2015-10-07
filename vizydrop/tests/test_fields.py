@@ -23,3 +23,10 @@ class FieldTypeTests(unittest.TestCase):
         field.add(2)
         field.add(3)
         self.assertEqual(3, field.__len__())
+
+    def test_id_type_int_checks(self):
+        field = fields.IDField(force_int=True)
+        field.set('123')
+        self.assertTrue(field.is_valid())
+        field.set('a')
+        self.assertFalse(field.is_valid())
