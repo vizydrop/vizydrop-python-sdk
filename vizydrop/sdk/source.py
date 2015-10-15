@@ -127,9 +127,14 @@ class SourceFilter(FieldedObject):
         :return: dict
         """
         fields = []
+        required_fields = []
         for name, field in cls.get_all_fields():
             f = {"id": name}
             f.update(field.get_api_description(datalist=True, optional=True, name=True))
             if f.get('description', None) and f.get('name', None):
-                fields.append(f)
-        return fields
+                if f.get('required', False):
+                    required_fields.append(f)
+                else:
+                    fields.append(f)
+        # be sure our required_fields are before regular fields
+        return required_fields + fields
