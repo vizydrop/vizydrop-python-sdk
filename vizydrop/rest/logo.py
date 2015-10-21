@@ -21,3 +21,4 @@ class LogoHandler(VizydropAppRequestHandler, TpaHandlerMixin):
             return self.set_header('Location', meta.logo)
         # and finally, if we have nothing...
         self.set_status(204)
+        return self.finish(encode=False)
