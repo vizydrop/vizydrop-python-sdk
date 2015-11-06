@@ -47,6 +47,8 @@ class BaseHandler(VizydropAppRequestHandler, TpaHandlerMixin):
                 yield source_type.get_data(account, filter, limit=limit, skip=skip)
                 self.flush()
                 self.finish('')
+            except HTTPError as e:
+                raise e
             except Exception as e:
                 self.set_status(INTERNAL_SERVER_ERROR)
                 self._handle_request_exception(e)
