@@ -9,7 +9,7 @@ python:
   - "3.4"
   - "3.5-dev"
 
-install: "pip install oauthlib tornado<4.3 toro"
+install: "pip install oauthlib tornado\<4.3 toro"
 
 script: "python setup.py test"
 
