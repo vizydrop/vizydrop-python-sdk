@@ -36,7 +36,7 @@ setup(
     url="https://github.com/vizydrop/vizydrop-python-sdk",
     packages=find_packages(exclude=['tests', 'examples']),
     long_description=read('README.rst'),
-    install_requires=['tornado', 'oauthlib', 'pymongo'],
+    install_requires=['tornado<4.3', 'oauthlib', 'pymongo'],
     tests_require=['pytest', 'toro'],
     cmdclass = {'test': PyTest},
     classifiers=[
