@@ -37,7 +37,7 @@ setup(
     packages=find_packages(exclude=['tests', 'examples']),
     long_description=read('README.rst'),
     install_requires=['tornado<4.3', 'oauthlib', 'pymongo'],
-    tests_require=['pytest', 'toro'],
+    tests_require=['pytest', 'toro', 'tornado<4.3', 'oauthlib', 'pymongo'],
     cmdclass = {'test': PyTest},
     classifiers=[
         "Development Status :: 3 - Alpha",
