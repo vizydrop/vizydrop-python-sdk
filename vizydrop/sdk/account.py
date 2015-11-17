@@ -192,7 +192,7 @@ class AppOAuthv2Account(AppOAuthAccount):
                                                                                          client_secret=self.Meta.client_secret,
                                                                                          refresh_token=self.refresh_token)
 
-                    token_request = HTTPRequest(uri, data=body.encode('utf-8'), headers=headers, method='POST')
+                    token_request = HTTPRequest(uri, body=body.encode('utf-8'), headers=headers, method='POST')
                     client = AsyncHTTPClient()
                     response = yield client.fetch(token_request)
 
