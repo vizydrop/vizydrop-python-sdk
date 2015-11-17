@@ -1,8 +1,12 @@
 import base64
 
 from oauthlib import oauth1, oauth2
+from tornado.httpclient import AsyncHTTPClient, HTTPError, HTTPRequest
 
 from vizydrop.fields import *
+from tornado import gen, log
+import json
+from datetime import datetime, timedelta
 
 
 class Account(FieldedObject):
@@ -174,6 +178,41 @@ class AppOAuthv2Account(AppOAuthAccount):
         :return:
         """
         raise NotImplementedError
+
+    @gen.coroutine
+    def refresh_token(self):
+        # check refreshes
+        if hasattr(self, 'refresh_token'):
+            try:
+                expiration = datetime.strptime(self.token_expiration, '%Y-%m-%dT%H:%M:%S.%f')
+            except ValueError:
+                log.app_log.error("Unable to parse token_expiration for account {}".format(self._id))
+                return False, "unable to parse expiration"
+            # and actually refresh if we need it
+            if expiration < datetime.now():
+                log.app_log.info("Refreshing token for account {}".format(self._id))
+                try:
+                    uri, headers, body = self.get_client().prepare_refresh_token_request(self.Meta.token_uri,
+                                                                                         client_id=self.Meta.client_id,
+                                                                                         client_secret=self.Meta.client_secret,
+                                                                                         refresh_token=self.refresh_token)
+
+                    token_request = HTTPRequest(uri, data=body.encode('utf-8'), headers=headers, method='POST')
+                    client = AsyncHTTPClient()
+                    response = yield client.fetch(token_request)
+
+                    response_data = json.loads(response.body.decode('utf-8'))
+                    self.access_token = response_data.get('access_token')
+                    self._oauth_client.access_token = self.access_token
+                    self.token_expiration = datetime.now() + timedelta(seconds=int(response_data.get('expires_in')))
+                    if 'refresh_token' in response_data.keys():
+                        self.refresh_token = response_data.get('refresh_token')
+                    yield self.save()
+                    log.app_log.info("Token refreshed successfully!")
+                except HTTPError as e:
+                    log.app_log.error("Error refreshing token {} ({})".format(self._id, e.readlines()))
+                    return False, e.response.reason
+        return True, None
 
     access_token = TextField(name="OAuth Access Token")
     callback_uri = TextField(name="Redirect/callback URI")

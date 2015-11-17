@@ -72,7 +72,7 @@ class VizydropAppRequestHandler(RequestHandler):
             except AttributeError:
                 pass
         log.app_log.error("Error: {}\n{}".format(msg, "".join(format_tb(tb))))
-        self.finish(json.dumps({"exception": typ.__name__, "message": str(exc), 'traceback': format_tb(tb, None)}))
+        self.finish(json.dumps({"error": str(exc)}))
 
     def finish(self, chunk=None, encode=True):
         if not isinstance(chunk, str) and encode is True:
