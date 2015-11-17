@@ -202,7 +202,6 @@ class AppOAuthv2Account(AppOAuthAccount):
                     self.token_expiration = datetime.now() + timedelta(seconds=int(response_data.get('expires_in')))
                     if 'refresh_token' in response_data.keys():
                         self.refresh_token = response_data.get('refresh_token')
-                    yield self.save()
                     log.app_log.info("Token refreshed successfully!")
                 except HTTPError as e:
                     log.app_log.error("Error refreshing token {} ({})".format(self._id, e.readlines()))
