@@ -12,7 +12,7 @@ class LogoHandler(VizydropAppRequestHandler, TpaHandlerMixin):
         if path.isfile(fp):
             self.set_header('Content-Type', 'image/svg+xml')
             with open(fp, 'r') as fh:
-                return self.write(fh.read())
+                return self.finish(fh.read(), encode=False)
         # check our meta
         meta = self.tpa.Meta
         if hasattr(meta, 'logo'):
