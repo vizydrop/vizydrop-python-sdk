@@ -180,7 +180,7 @@ class AppOAuthv2Account(AppOAuthAccount):
         raise NotImplementedError
 
     @gen.coroutine
-    def refresh_token(self):
+    def do_token_refresh(self):
         # check refreshes
         if hasattr(self, 'refresh_token'):
             try:
