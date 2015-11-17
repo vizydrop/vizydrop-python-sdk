@@ -183,13 +183,8 @@ class AppOAuthv2Account(AppOAuthAccount):
     def do_token_refresh(self):
         # check refreshes
         if hasattr(self, 'refresh_token'):
-            try:
-                expiration = datetime.strptime(self.token_expiration, '%Y-%m-%dT%H:%M:%S.%f')
-            except ValueError:
-                log.app_log.error("Unable to parse token_expiration for account {}".format(self._id))
-                return False, "unable to parse expiration"
             # and actually refresh if we need it
-            if expiration < datetime.now():
+            if self.token_expiration < datetime.now():
                 log.app_log.info("Refreshing token for account {}".format(self._id))
                 try:
                     uri, headers, body = self.get_client().prepare_refresh_token_request(self.Meta.token_uri,
