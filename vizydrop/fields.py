@@ -12,7 +12,7 @@ class Field(object):
     _api_type = None
 
     def __init__(self, name=None, default=None, description=None, optional=True, get_options=None, options=None,
-                 response_loc=None):
+                 protected=False, response_loc=None):
         """
         A Field represents a data field in a schema or account
         :param name: Title of the field
@@ -20,6 +20,7 @@ class Field(object):
         :param description: Long description of what this field represents
         :param optional: If user-defined, is this an optional field?
         :param get_options: Function to grab possible values for this field
+        :param protected: Does this field define private data and should be encrypted in the database?
         :param response_loc: If gathered from a 3rd-party, where is this field represented in the data?
                              Nested dicts can be separated by a hyphen (-)
         :return:
@@ -31,6 +32,7 @@ class Field(object):
         self._optional = optional
         self._data_list_function = get_options
         self._options = options
+        self._protected = protected
         self.response_location = response_loc
 
         if self._api_type is None:
