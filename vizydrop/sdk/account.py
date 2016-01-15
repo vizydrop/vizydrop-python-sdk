@@ -74,7 +74,7 @@ class Account(FieldedObject):
 
 class AppHTTPBasicAuthAccount(Account):
     username = TextField(name='Username', optional=False, description='Your username')
-    password = PasswordField(name='Password', optional=False, description='Your password')
+    password = PasswordField(name='Password', optional=False, description='Your password', protected=True)
 
     def _get_basic_auth(self):
         """
@@ -130,8 +130,8 @@ class AppOAuthv1Account(AppOAuthAccount):
     def get_authorize_uri(self, token):
         raise NotImplemented
 
-    access_token = TextField(name="OAuth Access Token")
-    access_secret = TextField(name="OAuth Secret Token")
+    access_token = TextField(name="OAuth Access Token", protected=True)
+    access_secret = TextField(name="OAuth Secret Token", protected=True)
 
 
 class AppOAuthv2Account(AppOAuthAccount):
