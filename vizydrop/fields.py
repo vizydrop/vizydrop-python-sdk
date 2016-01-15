@@ -86,6 +86,10 @@ class Field(object):
     def options(self):
         return self._options
 
+    @property
+    def protected(self):
+        return self._protected
+
     def convert_value(self, value):
         if value is None:
             return None
