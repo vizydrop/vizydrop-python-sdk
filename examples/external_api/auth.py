@@ -15,7 +15,7 @@ class NoAuth(Account):
 
     @gen.coroutine
     def validate(self):
-        return "No Authentication Needed"
+        return True, "No Authentication Needed"
 
     def get_friendly_name(self):
         return "Vizydrop flatfile App Example"
