@@ -184,7 +184,7 @@ class AppOAuthv2Account(AppOAuthAccount):
         # check refreshes
         if hasattr(self, 'refresh_token'):
             # and actually refresh if we need it
-            if self.token_expiration < datetime.now():
+            if self.token_expiration and self.token_expiration < datetime.now():
                 log.app_log.info("Refreshing token for account {}".format(self._id))
                 try:
                     uri, headers, body = self.get_client().prepare_refresh_token_request(self.Meta.token_uri,
